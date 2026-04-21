@@ -1,0 +1,45 @@
+.mis-pedidos { padding: 56px 0 100px; }
+
+.mis-pedidos__encabezado {
+  margin-bottom: 40px; padding-bottom: 20px; border-bottom: 1px solid var(--borde);
+}
+.mis-pedidos__encabezado h1 {
+  font-family: var(--titulo); font-size: 2rem; font-weight: 300; font-style: italic;
+}
+
+.mis-pedidos__vacio {
+  text-align: center; padding: 120px 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px; color: var(--gris-4);
+}
+.mis-pedidos__vacio h2 { font-family: var(--titulo); font-size: 1.6rem; font-weight: 300; font-style: italic; color: var(--negro); }
+.mis-pedidos__vacio p { font-style: italic; font-size: 0.85rem; }
+
+.mis-pedidos__lista { display: flex; flex-direction: column; gap: 2px; background: var(--borde-suave); }
+
+.mis-pedidos__tarjeta { background: var(--blanco); overflow: hidden; }
+
+.mis-pedidos__head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 24px; border-bottom: 1px solid var(--borde);
+}
+.mis-pedidos__num { display: block; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; color: var(--negro); }
+.mis-pedidos__fecha { display: block; font-size: 0.72rem; color: var(--gris-3); margin-top: 2px; }
+
+.mis-pedidos__estado {
+  display: inline-block; padding: 4px 14px;
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #fff; border-radius: 0;
+}
+
+.mis-pedidos__items { padding: 18px 24px; display: flex; flex-direction: column; gap: 10px; }
+.mis-pedidos__item { display: flex; align-items: center; gap: 12px; font-size: 0.85rem; color: var(--negro-2); }
+.mis-pedidos__item-nombre { flex: 1; }
+.mis-pedidos__item-qty { color: var(--gris-3); font-size: 0.75rem; }
+.mis-pedidos__item-precio { font-weight: 500; }
+
+.mis-pedidos__pie {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 24px; background: var(--gris-1); border-top: 1px solid var(--borde);
+  font-size: 0.78rem; color: var(--gris-4);
+}
+.mis-pedidos__pie strong { font-size: 0.92rem; color: var(--negro); }

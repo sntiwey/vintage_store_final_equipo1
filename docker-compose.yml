@@ -1,0 +1,74 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    platform: linux/arm64/v8
+    container_name: tienda_vintage_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root1234
+      MYSQL_DATABASE: tienda_vintage
+      MYSQL_USER: vintage_user
+      MYSQL_PASSWORD: vintage1234
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3307:3306"
+    volumes:
+      - datos_mysql:/var/lib/mysql
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - red_vintage
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot1234"]
+      interval: 15s
+      timeout: 10s
+      retries: 8
+      start_period: 30s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    platform: linux/arm64/v8
+    container_name: tienda_vintage_backend
+    restart: on-failure
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/tienda_vintage?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Mexico_City&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: vintage_user
+      SPRING_DATASOURCE_PASSWORD: vintage1234
+      JWT_SECRET: clave_secreta_tienda_vintage_2024_super_segura_minimo32
+      JWT_EXPIRACION: 86400000
+      JAVA_OPTS: "-Xmx512m -Xms256m"
+    ports:
+      - "8080:8080"
+    networks:
+      - red_vintage
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    platform: linux/arm64/v8
+    container_name: tienda_vintage_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    networks:
+      - red_vintage
+
+volumes:
+  datos_mysql:
+    driver: local
+
+networks:
+  red_vintage:
+    driver: bridge
